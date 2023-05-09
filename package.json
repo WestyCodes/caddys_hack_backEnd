@@ -10,6 +10,9 @@
         "type": "git",
         "url": "git+https://github.com/WestyCodes/caddys_hack_backEnd.git"
     },
+    "prisma": {
+        "seed": "node prisma/seed.js"
+    },
     "author": "",
     "license": "ISC",
     "bugs": {
@@ -17,13 +20,16 @@
     },
     "homepage": "https://github.com/WestyCodes/caddys_hack_backEnd#readme",
     "dependencies": {
+        "@prisma/client": "^4.13.0",
+        "bcrypt": "^5.1.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
         "express": "^4.18.2",
         "morgan": "^1.10.0"
     },
     "devDependencies": {
-        "nodemon": "^2.0.22"
+        "nodemon": "^2.0.22",
+        "prisma": "^4.13.0"
     },
     "type": "module"
 }
