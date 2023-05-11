@@ -11,3 +11,17 @@ export const getAllUsers = async () => {
     });
     return users;
 };
+
+export const getUserByEmail = async (email) => {
+    const foundUser = await dbClient.user.findUnique({
+        where: {
+            email: email,
+        },
+    });
+
+    if (foundUser) {
+        return foundUser;
+    }
+
+    return null;
+};
