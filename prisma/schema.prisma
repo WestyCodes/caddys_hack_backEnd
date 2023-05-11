@@ -17,18 +17,41 @@ enum Role {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  email         String          @unique
-  password      String
-  role          Role            @default(PUBLIC)
-  profile       Profile?
+  id              Int             @id @default(autoincrement())
+  email           String          @unique
+  password        String
+  role            Role            @default(PUBLIC)
+  profile         Profile?
+  basicGolfShots  GolfShotBasic[]
 }
 
 model Profile {
-  id            Int             @id @default(autoincrement())
-  userId        Int             @unique
-  user          User            @relation(fields: [userId], references: [id])
-  firstName     String
-  lastName      String
-  bio           String?
+  id              Int             @id @default(autoincrement())
+  userId          Int             @unique
+  user            User            @relation(fields: [userId], references: [id])
+  firstName       String
+  lastName        String
+  bio             String?
+}
+
+model GolfShotBasic {
+  id              Int             @id @default(autoincrement())
+  userId          Int
+  user            User            @relation(fields: [userId], references: [id])
+  golfClubId      Int
+  golfClub        GolfClub        @relation(fields: [golfClubId], references: [id])
+  left            Boolean?   
+  right           Boolean?
+  onTarget        Boolean?
+  long            Boolean?
+  short           Boolean?
+  pinHigh         Boolean?
+}
+
+model GolfClub {
+  id              Int             @id @default(autoincrement())
+  club            String
+  brand           String?
+  model           String?
+  basicGolfShots  GolfShotBasic[]
 }

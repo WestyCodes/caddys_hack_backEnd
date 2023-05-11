@@ -7,6 +7,7 @@ export const getAllUsers = async () => {
             id: true,
             email: true,
             role: true,
+            basicGolfShots: true,
         },
     });
     return users;
