@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAll } from '../controllers/user.js';
+import { getAll, create } from '../controllers/user.js';
 import {
     validateAuthentication,
     validateIdOrRole,
@@ -8,5 +8,6 @@ import {
 const router = Router();
 
 router.get('/', validateAuthentication, validateIdOrRole, getAll);
+router.post('/', create);
 
 export default router;

@@ -1,5 +1,5 @@
 import dbClient from '../utils/dbClient.js';
-// import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 export const getAllUsers = async () => {
     const users = await dbClient.user.findMany({
@@ -24,4 +24,17 @@ export const getUserByEmail = async (email) => {
     }
 
     return null;
+};
+
+export const createNewUser = async (user) => {
+    const { email, password } = user;
+    const passwordHash = await bcrypt.hash(password, 8);
+
+    const createdUser = await dbClient.user.create({
+        data: {
+            email: email,
+            password: passwordHash,
+        },
+    });
+    return createdUser;
 };
