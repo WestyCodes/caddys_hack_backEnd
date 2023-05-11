@@ -1,5 +1,10 @@
 import { Prisma } from '@prisma/client';
-import { createNewUser, getAllUsers, getUserByEmail } from '../domain/user.js';
+import {
+    createNewUser,
+    getAllUsers,
+    getUserByEmail,
+    createBasicShot,
+} from '../domain/user.js';
 import { sendDataResponse } from '../utils/responses.js';
 
 export const getAll = async (req, res) => {
@@ -72,3 +77,33 @@ function passwordValidation(password) {
         /^(?=.*\d)(?=.*[!?@#$%^&*()+_{}<>`~\\\-/.,[\]])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     return passwordRegex.test(password);
 }
+
+export const createGolfShot = async (req, res) => {
+    const id = Number(req.user.id);
+    const body = req.body;
+    body.userId = id;
+
+    if (
+        body.left === false &&
+        body.right === false &&
+        body.onTarget === false
+    ) {
+        return sendDataResponse(res, 400, {
+            error: 'Server needs to know whether shot went Left, Right, or On Target.',
+        });
+    }
+    if (body.long === false && body.short === false && body.pinHigh === false) {
+        return sendDataResponse(res, 400, {
+            error: 'Server needs to know whether shot went Long, Short, or Pin High.',
+        });
+    }
+    try {
+        const newShot = await createBasicShot(body);
+        return sendDataResponse(res, 201, newShot);
+    } catch (error) {
+        console.error(`Error when creating a new golf shot \n`, error);
+        return sendDataResponse(res, 500, {
+            error: 'Unable to create new golf shot',
+        });
+    }
+};
