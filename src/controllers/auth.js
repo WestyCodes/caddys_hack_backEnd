@@ -28,9 +28,12 @@ export const login = async (req, res) => {
 
         const token = generateJwt(foundUser.id);
 
-        return sendDataResponse(res, 200, { token, ...foundUser.toJSON() });
+        delete foundUser.password;
+
+        return sendDataResponse(res, 200, { token, foundUser });
     } catch (e) {
-        return sendMessageResponse(res, 500, 'Unable to process request');
+        console.log(e);
+        return sendDataResponse(res, 500, 'Unable to process request');
     }
 };
 

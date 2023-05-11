@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 import { sendDataResponse } from '../utils/responses.js';
 import { JWT_SECRET } from '../utils/config.js';
 import jwt from 'jsonwebtoken';
+import { getUserByID } from '../domain/user.js';
 
 function validateToken(token) {
     if (!token) {
@@ -51,7 +52,7 @@ export async function validateAuthentication(req, res, next) {
     }
 
     const decodedToken = jwt.decode(token);
-    const foundUser = await User.findById(decodedToken.userId);
+    const foundUser = await getUserByID(decodedToken.userId);
     delete foundUser.passwordHash;
 
     req.user = foundUser;

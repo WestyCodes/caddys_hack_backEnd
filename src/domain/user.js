@@ -26,6 +26,20 @@ export const getUserByEmail = async (email) => {
     return null;
 };
 
+export const getUserByID = async (id) => {
+    const foundUser = await dbClient.user.findUnique({
+        where: {
+            id: id,
+        },
+    });
+
+    if (foundUser) {
+        return foundUser;
+    }
+
+    return null;
+};
+
 export const createNewUser = async (user) => {
     const { email, password } = user;
     const passwordHash = await bcrypt.hash(password, 8);

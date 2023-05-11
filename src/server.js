@@ -4,6 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 // Dont forget to import the routers from routes.
 import userRouter from './routes/user.js';
+import authRouter from './routes/auth.js';
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 // app.use('/users', userRouter)
 // app.use('/', authRouter);
 app.use('/users', userRouter);
+app.use('/', authRouter);
 
 app.get('*', (req, res) => {
     res.status(404).json({
