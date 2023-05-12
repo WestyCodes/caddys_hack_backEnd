@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { getAll, create, createGolfShot } from '../controllers/user.js';
+import { getAll, create } from '../controllers/user.js';
+import { createGolfShot } from '../controllers/basicShot.js';
 import {
     validateAuthentication,
     validateIdOrRole,
