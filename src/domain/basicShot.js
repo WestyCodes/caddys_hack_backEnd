@@ -27,3 +27,13 @@ export const createBasicShot = async (shotData) => {
     });
     return newShot;
 };
+
+export const allShotsByClub = async (userId, golfClubId) => {
+    const golfshots = await dbClient.golfShotBasic.findMany({
+        where: {
+            userId,
+            golfClubId,
+        },
+    });
+    return golfshots;
+};

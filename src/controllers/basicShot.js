@@ -1,5 +1,5 @@
 import { sendDataResponse } from '../utils/responses.js';
-import { createBasicShot } from '../domain/basicShot.js';
+import { createBasicShot, allShotsByClub } from '../domain/basicShot.js';
 
 export const createGolfShot = async (req, res) => {
     const id = Number(req.user.id);
@@ -28,5 +28,18 @@ export const createGolfShot = async (req, res) => {
         return sendDataResponse(res, 500, {
             error: 'Unable to create new golf shot',
         });
+    }
+};
+
+export const findShotByClub = async (req, res) => {
+    const userId = Number(req.user.id);
+    const { golfClubId } = req.body;
+
+    try {
+        const golfShots = await allShotsByClub(userId, golfClubId);
+        return sendDataResponse(res, 200, golfShots);
+    } catch (e) {
+        console.log(e);
+        return sendDataResponse(res, 500, { error: e.message });
     }
 };
