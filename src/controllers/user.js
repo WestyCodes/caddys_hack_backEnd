@@ -1,5 +1,11 @@
 import { Prisma } from '@prisma/client';
-import { createNewUser, getAllUsers, getUserByEmail } from '../domain/user.js';
+import {
+    createNewUser,
+    getAllUsers,
+    getUserByEmail,
+    createProfile,
+    updateUserById,
+} from '../domain/user.js';
 import { sendDataResponse } from '../utils/responses.js';
 
 export const getAll = async (req, res) => {
@@ -48,6 +54,117 @@ export const create = async (req, res) => {
         return sendDataResponse(res, 500, {
             error: 'Unable to create new user',
         });
+    }
+};
+
+export const createNewProfile = async (req, res) => {
+    const profile = {
+        create: {},
+    };
+
+    if (req.body.firstName) {
+        profile.create.firstName = req.body.firstName;
+    } else {
+        return sendDataResponse(res, 400, {
+            error: 'Please provide a first name',
+        });
+    }
+
+    if (req.body.lastName) {
+        profile.create.lastName = req.body.lastName;
+    } else {
+        return sendDataResponse(res, 400, {
+            error: 'Please provide a last name',
+        });
+    }
+
+    if (req.body.bio) {
+        profile.create.bio = req.body.bio;
+    }
+
+    try {
+        const updatedUser = await createProfile(Number(req.params.id), profile);
+        delete updatedUser.password;
+        return sendDataResponse(res, 201, updatedUser);
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            console.error(e.code, e.message);
+            return sendDataResponse(res, 400, { error: e.message });
+        } else {
+            console.log(e);
+            return sendDataResponse(res, 400, { error: e.message });
+        }
+    }
+};
+
+export const updateById = async (req, res) => {
+    const data = {};
+
+    if (req.body.email) {
+        if (emailValidation(req.body.email)) {
+            data.email = req.body.email;
+        } else {
+            return sendDataResponse(res, 400, { error: 'Invalid Email' });
+        }
+    }
+    if (req.body.password) {
+        if (passwordValidation(req.body.password)) {
+            data.password = req.body.password;
+        } else {
+            return sendDataResponse(res, 400, {
+                error: 'Password must contain at least one upper case character, at least one number, at least one special character and not be less than 8 characters in length.',
+            });
+        }
+    }
+
+    if (req.body.role) {
+        if (req.user.role === 'ADMIN') {
+            data.role = req.body.role;
+        } else {
+            return sendDataResponse(res, 403, {
+                authorization: 'Only ADMIN are allowed to update roles',
+            });
+        }
+    }
+
+    if (req.body.firstName || req.body.lastName || req.body.bio) {
+        data.profile = { update: {} };
+    }
+    if (req.body.firstName) {
+        data.profile.update.firstName = req.body.firstName;
+    }
+
+    if (req.body.lastName) {
+        data.profile.update.lastName = req.body.lastName;
+    }
+
+    if (req.body.bio) {
+        data.profile.update.bio = req.body.bio;
+    }
+
+    try {
+        const updatedUser = await updateUserById(Number(req.params.id), data);
+        delete updatedUser.password;
+        return sendDataResponse(res, 201, { user: updatedUser });
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            if (e.code === 'P2016') {
+                return sendDataResponse(res, 400, {
+                    error: 'Please create a Profile before updating it.',
+                });
+            }
+            if (e.code === 'P2002') {
+                return sendDataResponse(res, 409, {
+                    error: 'Email is already in use',
+                });
+            }
+        }
+        if (e instanceof Prisma.PrismaClientValidationError) {
+            return sendDataResponse(res, 400, {
+                error: 'Invalid Role. Valid roles are: PUBLIC, ADMIN',
+            });
+        }
+        return sendDataResponse(res, 400, { error: e });
     }
 };
 

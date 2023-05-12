@@ -53,3 +53,38 @@ export const createNewUser = async (user) => {
     });
     return createdUser;
 };
+
+export const createProfile = async (id, profile) => {
+    const updatedUser = await dbClient.user.update({
+        where: {
+            id,
+        },
+        data: {
+            profile,
+        },
+        include: {
+            profile: true,
+        },
+    });
+    return updatedUser;
+};
+
+export const updateUserById = async (id, data) => {
+    const query = {
+        where: {
+            id,
+        },
+        data: data,
+        include: {
+            profile: true,
+        },
+    };
+
+    if (query.data.password) {
+        query.data.password = await bcrypt.hash(query.data.password, 8);
+    }
+
+    const updatedUser = await dbClient.user.update(query);
+
+    return updatedUser;
+};

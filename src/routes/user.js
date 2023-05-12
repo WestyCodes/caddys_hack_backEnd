@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { getAll, create } from '../controllers/user.js';
+import {
+    getAll,
+    create,
+    createNewProfile,
+    updateById,
+} from '../controllers/user.js';
 import { createGolfShot } from '../controllers/basicShot.js';
 import {
     validateAuthentication,
@@ -16,5 +21,7 @@ router.post(
     validateIdOrRole,
     createGolfShot
 );
+router.put('/:id', validateAuthentication, validateIdOrRole, createNewProfile);
+router.patch('/:id', validateAuthentication, validateIdOrRole, updateById);
 
 export default router;
