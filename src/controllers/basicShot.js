@@ -37,6 +37,11 @@ export const findShotByClub = async (req, res) => {
 
     try {
         const golfShots = await allShotsByClub(userId, golfClubId);
+        if (golfShots.length === 0) {
+            return sendDataResponse(res, 400, {
+                error: 'No golf shots tracked with that club ID.',
+            });
+        }
         return sendDataResponse(res, 200, golfShots);
     } catch (e) {
         console.log(e);
