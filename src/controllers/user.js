@@ -5,6 +5,7 @@ import {
     getUserByEmail,
     createProfile,
     updateUserById,
+    getUserByID,
 } from '../domain/user.js';
 import { sendDataResponse } from '../utils/responses.js';
 
@@ -16,6 +17,17 @@ export const getAll = async (req, res) => {
         } else {
             return sendDataResponse(res, 404, { error: 'User not found' });
         }
+    } catch (e) {
+        return sendDataResponse(res, 500, { error: e.message });
+    }
+};
+
+export const getById = async (req, res) => {
+    const id = Number(req.params.id);
+    try {
+        const user = await getUserByID(id);
+        delete user.password;
+        return sendDataResponse(res, 200, { user });
     } catch (e) {
         return sendDataResponse(res, 500, { error: e.message });
     }

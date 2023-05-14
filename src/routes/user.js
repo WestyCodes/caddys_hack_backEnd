@@ -4,6 +4,7 @@ import {
     create,
     createNewProfile,
     updateById,
+    getById,
 } from '../controllers/user.js';
 import { createGolfShot, findShotByClub } from '../controllers/basicShot.js';
 import {
@@ -23,6 +24,7 @@ router.post(
 );
 router.put('/:id', validateAuthentication, validateIdOrRole, createNewProfile);
 router.patch('/:id', validateAuthentication, validateIdOrRole, updateById);
+router.get('/:id', validateAuthentication, validateIdOrRole, getById);
 router.get(
     '/:id/golfshot',
     validateAuthentication,
