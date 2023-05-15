@@ -5,6 +5,7 @@ import morgan from 'morgan';
 // Dont forget to import the routers from routes.
 import userRouter from './routes/user.js';
 import authRouter from './routes/auth.js';
+import clubRouter from './routes/golfclub.js';
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 // Here be the routing.
 // app.use('/users', userRouter)
 // app.use('/', authRouter);
+app.use('/clubs', clubRouter);
 app.use('/users', userRouter);
 app.use('/', authRouter);
 
