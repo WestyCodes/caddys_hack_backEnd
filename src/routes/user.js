@@ -6,7 +6,11 @@ import {
     updateById,
     getById,
 } from '../controllers/user.js';
-import { createGolfShot, findShotByClub } from '../controllers/basicShot.js';
+import {
+    createGolfShot,
+    findShotByClub,
+    findShotByUser,
+} from '../controllers/basicShot.js';
 import {
     validateAuthentication,
     validateIdOrRole,
@@ -26,7 +30,13 @@ router.put('/:id', validateAuthentication, validateIdOrRole, createNewProfile);
 router.patch('/:id', validateAuthentication, validateIdOrRole, updateById);
 router.get('/:id', validateAuthentication, validateIdOrRole, getById);
 router.get(
-    '/:id/golfshot',
+    '/:id/golfshot/all',
+    validateAuthentication,
+    validateIdOrRole,
+    findShotByUser
+);
+router.get(
+    '/:id/golfshot/:golfclubid',
     validateAuthentication,
     validateIdOrRole,
     findShotByClub

@@ -1,5 +1,9 @@
 import { sendDataResponse } from '../utils/responses.js';
-import { createBasicShot, allShotsByClub } from '../domain/basicShot.js';
+import {
+    createBasicShot,
+    allShotsByClub,
+    allShotsByUser,
+} from '../domain/basicShot.js';
 
 export const createGolfShot = async (req, res) => {
     const id = Number(req.user.id);
@@ -33,7 +37,7 @@ export const createGolfShot = async (req, res) => {
 
 export const findShotByClub = async (req, res) => {
     const userId = Number(req.user.id);
-    const { golfClubId } = req.body;
+    const golfClubId = Number(req.params.golfclubid);
 
     try {
         const golfShots = await allShotsByClub(userId, golfClubId);
@@ -43,8 +47,25 @@ export const findShotByClub = async (req, res) => {
             });
         }
         return sendDataResponse(res, 200, golfShots);
-    } catch (e) {
-        console.log(e);
-        return sendDataResponse(res, 500, { error: e.message });
+    } catch (error) {
+        console.error(`Error when finding golf shots \n`, error);
+        return sendDataResponse(res, 500, { error: error.message });
+    }
+};
+
+export const findShotByUser = async (req, res) => {
+    const userId = Number(req.user.id);
+
+    try {
+        const golfShots = await allShotsByUser(userId);
+        if (golfShots.length === 0) {
+            return sendDataResponse(res, 400, {
+                error: 'No golf shots tracked with that user ID.',
+            });
+        }
+        return sendDataResponse(res, 200, golfShots);
+    } catch (error) {
+        console.error(`Error when finding golf shots \n`, error);
+        return sendDataResponse(res, 500, { error: error.message });
     }
 };

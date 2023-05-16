@@ -37,3 +37,12 @@ export const allShotsByClub = async (userId, golfClubId) => {
     });
     return golfshots;
 };
+
+export const allShotsByUser = async (userId) => {
+    const golfshots = await dbClient.golfShotBasic.findMany({
+        where: {
+            userId,
+        },
+    });
+    return golfshots;
+};
