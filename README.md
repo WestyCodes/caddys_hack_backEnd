@@ -38,6 +38,8 @@ $ npm install
 $ npm start
 ```
 
+This is your `.env` file.
+
 ```
 PORT=
 DATABASE_URL="YOUR_DATABASE_URL"
