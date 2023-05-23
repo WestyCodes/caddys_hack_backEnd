@@ -52,7 +52,9 @@ JWT_EXPIRY=
 2. Create a `.env` with the above information.
 3. Edit the `DATABASE_URL` variable in `.env`, swapping `YOUR_DATABASE_URL` for the URL of the database you just created. Leave `?schema=prisma` at the end.
 4. Edit the `SHADOW_DATABASE_URL` variable in `.env`, swapping `YOUR_SHADOW_DATABASE_URL` for the URL of the shadow database you created in the earlier exercises. Leave `?schema=shadow` at the end.
-5. Run `npm ci` to install the project dependencies.
-6. Run `npx prisma migrate reset` to execute the existing migrations & data seed. Press `y` when it asks if you're sure.
+5. Set your `JWT_SECRET` to a string of your choice
+6. Set your `JWT_EXPIRY` to a specific number - go to [this website](https://www.npmjs.com/package/jsonwebtoken) for more info on JSON web tokens.
+7. Run `npm ci` to install the project dependencies.
+8. Run `npx prisma migrate reset` to execute the existing migrations & data seed. Press `y` when it asks if you're sure.
 
 You will also need to download and install the FrontEnd which can be found [here](https://github.com/WestyCodes/caddys_hack_frontEnd)
