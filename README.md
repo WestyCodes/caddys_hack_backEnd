@@ -25,7 +25,7 @@ Project is created with:
 -   cors version: 2.8.5
 -   dotenv version: 16.0.3
 -   express version: 4.18.2
--   jsonwebtoken version:9.0.0
+-   jsonwebtoken version: 9.0.0
 -   morgan version: 1.10.0
 
 ## Setup
