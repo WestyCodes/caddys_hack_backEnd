@@ -10,7 +10,7 @@ import clubRouter from './routes/golfclub.js';
 const app = express();
 
 app.use(morgan('dev'));
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 // Here be the routing.
