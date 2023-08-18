@@ -4,8 +4,7 @@
     "description": "Golf aid app for golfers of all skill levels!",
     "main": "index.js",
     "scripts": {
-        "start": "npx nodemon ./src/index.js",
-        "vercel-build": "echo hello"
+        "start": "npx nodemon ./src/index.js"
     },
     "repository": {
         "type": "git",
