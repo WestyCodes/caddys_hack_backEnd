@@ -10,7 +10,13 @@ import clubRouter from './routes/golfclub.js';
 const app = express();
 
 app.use(morgan('dev'));
-app.use(cors());
+app.use(
+    cors({
+        origin: ['https://caddys-hack-front-end.vercel.app'],
+        methods: ['POST', 'GET'],
+        credentials: true,
+    })
+);
 app.use(express.json());
 
 // Here be the routing.
