@@ -4,6 +4,7 @@
     "description": "Golf aid app for golfers of all skill levels!",
     "main": "index.js",
     "scripts": {
+        "postinstall": "prisma generate",
         "start": "npx nodemon ./src/index.js"
     },
     "repository": {
