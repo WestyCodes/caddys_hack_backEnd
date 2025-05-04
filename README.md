@@ -58,3 +58,5 @@ JWT_EXPIRY=
 8. Run `npx prisma migrate reset` to execute the existing migrations & data seed. Press `y` when it asks if you're sure.
 
 You will also need to download and install the FrontEnd which can be found [here](https://github.com/WestyCodes/caddys_hack_frontEnd)
+
+Thank you for reading.
